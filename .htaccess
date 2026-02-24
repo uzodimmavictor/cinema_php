@@ -1,0 +1,6 @@
+RewriteEngine On
+
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ./src/config/router.php [QSA,L]
