@@ -82,7 +82,7 @@ class BookingController {
 
         // All seats are available, redirect to reservation confirmation
         // Store selected seats in session for reservation page
-        session_start();
+        // Session already started in index.php
         $_SESSION['booking'] = [
             'sceanceId' => $sceanceId,
             'seats' => $availableSeats,

@@ -1,5 +1,10 @@
 <?php
 
+// Start session at the very beginning
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Serve static files (images, CSS, JS) when using PHP built-in server
 $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
