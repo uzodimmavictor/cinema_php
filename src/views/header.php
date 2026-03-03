@@ -21,33 +21,29 @@ $is_admin = $_SESSION['is_admin'] ?? false;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $page_title ?? 'Cinema Reservation'; ?></title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <header>
-        <h1>Cinema Reservation System</h1>
-        
-        <nav>
-            <ul>
-                <?php if ($is_logged_in): ?>
-                    <li><a href="/home">Home</a></li>
-                    <li><a href="/reservation">My Reservations</a></li>
-                    <?php if ($is_admin): ?>
-                        <li><a href="/admin">Admin Panel</a></li>
+        <div class="container">
+            <h1>🎬 CINEMA</h1>
+            
+            <nav>
+                <ul>
+                    <?php if ($is_logged_in): ?>
+                        <li><a href="/home">🏠 Home</a></li>
+                        <li><a href="/reservation">🎫 My Reservations</a></li>
+                        <?php if ($is_admin): ?>
+                            <li><a href="/admin">⚙️ Admin</a></li>
+                        <?php endif; ?>
+                        <li><a href="/logout" class="btn-secondary">Logout</a></li>
+                    <?php else: ?>
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="/register">Register</a></li>
                     <?php endif; ?>
-                <?php endif; ?>
-            </ul>
-        </nav>
-        
-        <div>
-            <?php if ($is_logged_in): ?>
-                <p>Logged in as: <strong><?php echo htmlspecialchars($user_email, ENT_QUOTES, 'UTF-8'); ?></strong></p>
-                <a href="/logout">Logout</a>
-            <?php else: ?>
-                <a href="/login">Login</a> | <a href="/register">Register</a>
-            <?php endif; ?>
+                </ul>
+            </nav>
         </div>
     </header>
     
-    <hr>
-    
-    <main>
+    <main class="container">

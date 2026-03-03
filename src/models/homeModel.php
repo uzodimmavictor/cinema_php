@@ -12,7 +12,22 @@
  */
 function get_all_movies($pdo) {
     try {
-        $stmt = $pdo->prepare("SELECT filmId, filmTitle, filmAuthor, filmDetail, filmCategory FROM film ORDER BY filmTitle ASC");
+        $stmt = $pdo->prepare("
+            SELECT 
+                f.filmId, 
+                f.filmTitle, 
+                f.filmAuthor, 
+                f.filmDetail, 
+                f.filmCategory, 
+                f.filmPoster,
+                f.filmTime,
+                COUNT(DISTINCT s.sceanceId) as availableShowtimes,
+                MIN(s.sceanceDate) as nextShowtime
+            FROM film f
+            LEFT JOIN sceance s ON f.filmId = s.filmId AND s.sceanceDate >= NOW()
+            GROUP BY f.filmId, f.filmTitle, f.filmAuthor, f.filmDetail, f.filmCategory, f.filmPoster, f.filmTime
+            ORDER BY f.filmTitle ASC
+        ");
         $stmt->execute();
         return $stmt->fetchAll();
     } catch (PDOException $e) {
@@ -29,7 +44,7 @@ function get_all_movies($pdo) {
  */
 function get_movie_by_id($pdo, $film_id) {
     try {
-        $stmt = $pdo->prepare("SELECT filmId, filmTitle, filmAuthor, filmDetail, filmCategory FROM film WHERE filmId = ?");
+        $stmt = $pdo->prepare("SELECT filmId, filmTitle, filmAuthor, filmDetail, filmCategory, filmPoster FROM film WHERE filmId = ?");
         $stmt->execute([$film_id]);
         return $stmt->fetch();
     } catch (PDOException $e) {
@@ -46,7 +61,7 @@ function get_movie_by_id($pdo, $film_id) {
  */
 function get_movies_by_category($pdo, $category) {
     try {
-        $stmt = $pdo->prepare("SELECT filmId, filmTitle, filmAuthor, filmDetail, filmCategory FROM film WHERE filmCategory = ? ORDER BY filmTitle ASC");
+        $stmt = $pdo->prepare("SELECT filmId, filmTitle, filmAuthor, filmDetail, filmCategory, filmPoster FROM film WHERE filmCategory = ? ORDER BY filmTitle ASC");
         $stmt->execute([$category]);
         return $stmt->fetchAll();
     } catch (PDOException $e) {
